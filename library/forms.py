@@ -6,7 +6,7 @@ from .models import Library, Membership
 #       auth forms                                                  #
 #####################################################################
 
-class RegisterForm(forms.ModleForm):
+class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email' ,'password']
