@@ -219,7 +219,7 @@ def book_delete(request, book_id):
 #####################################################################
 
 def auther_list(request):
-    authers = Auther.all()
+    authers = Auther.objects.all()
     context = {
         'authers': authers
     }
