@@ -29,3 +29,19 @@ class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     library = models.ForeignKey(Library, on_delete=models.CASCADE, related_name="members")
     membership = models.OneToOneField(Membership, default=1 ,on_delete=models.CASCADE, related_name="mempership")
+
+class Book(models.Model):
+    name = models.CharField(max_length=191)
+    auther = models.ForeignKey("Auther", on_delete=models.CASCADE, related_name="books")
+    year = models.DateField()
+    isbn = models.CharField(min_length=10, max_length=13, unique=True)
+    # if the genre is deleted set the value to null
+    # many to many relationship because its gonna be many books can have many genre 
+    genre = models.ManyToManyField("Genre", on_delete=models.SET_NULL, related_name='genres')
+    copies = models.IntegerField(default=1)
+
+class Auther(models.Model):
+    name = models.CharField(max_length=191)
+    bio = models.TextField(blank=True, null=True)
+class Genre(models.Model):
+    name = models.CharField(max_length=191)
