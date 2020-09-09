@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .forms import RegisterForm, LoginForm, LibraryForm
 from django.contrib.auth import login, authenticate, logout
-from .models import Library
+
+from .forms import RegisterForm, LoginForm, LibraryForm, MembershipForm
+from .models import Library, Membership, Member
 
 #####################################################################
 #       basic views                                                  #
@@ -25,7 +26,6 @@ def register(request):
             user = form.save(commit=False)
             user.set_password(user.password)
             user.save()
-
             login(request, user)
             # return redirect("restaurant-list")
     context = {
@@ -110,3 +110,44 @@ def library_delete(request, library_id):
     library_obj = Library.objects.get(id=library_id)
     library_obj.delete()
     return redirect('')
+
+#####################################################################
+#       mempership views                                            #
+#####################################################################
+
+def membership_list(request, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if (not request.user.is_staff) or (request.user != library.manager):
+        return redirect('404')
+    memberships = library.memberships.all()
+    context = {
+        'memberships': memberships
+    }
+    return render(request, 'memberships_list', context)
+
+def membership_create(request, library_id=1):
+    form = MembershipForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'memberships_list', context)
+
+def membership_update(request, membership_id, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if (not request.user.is_staff) or (request.user != library.manager):
+        return redirect('404')
+
+    membership = Membership.objects.get(id=membership_id)
+    if request.method == "POST":
+        form = MembershipForm(instance=membership)
+        if form.is_valid():
+            form.save()
+    context = {
+        'form': form,
+        'membership': membership
+    }
+    return render(request, 'memberships_list', context)
+
+def membership_delete(request, membership_id):
+	Membership.objects.get(id=membership_id).delete()
+	return redirect('membership_list')
