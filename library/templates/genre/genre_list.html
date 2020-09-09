@@ -1,0 +1,73 @@
+{% extends 'layout/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.css">
+{% endblock css %}
+
+{% block title %}List of authers{% endblock title %}
+
+{% block content %}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">List of Genres</h6>
+    </div>
+    <div class="card-body">
+
+        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
+            aria-describedby="dataTable_info" style="width: 100%;">
+            <thead>
+                <tr role="row">
+                    <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-sort="ascending" aria-label="Name: activate to sort column descending">Name
+                    </th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Number of books: activate to sort column ascending">
+                        Number of books</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Last book: activate to sort column ascending">
+                        Last book</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Action: activate to sort column ascending">
+                        Action</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th rowspan="1" colspan="1">Name</th>
+                    <th rowspan="1" colspan="1">Number of books</th>
+                    <th rowspan="1" colspan="1">last book</th>
+                    <th rowspan="1" colspan="1">Action</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                {% for genre in genres %}
+                <tr role="row">
+                    <td>{{ genre.name }}</td>
+                    <td>{{ genre.books.count }}</td>
+                    <td>{{ genre.books.last }}</td>
+                    <td>
+                        <a href="" class="btn btn-sm btn-danger"> <i class="fa fa-times" aria-hidden="true"></i></a>
+                        <a href="" class="btn btn-sm btn-info"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.js">
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+{% endblock scripts %}

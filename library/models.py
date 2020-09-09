@@ -49,6 +49,8 @@ class Auther(models.Model):
         return self.name
 class Genre(models.Model):
     name = models.CharField(max_length=191)
+    def __str__(self):
+        return self.name
 
 class LibraryLog(models.Model):
     library = models.OneToOneField(Library, on_delete=models.PROTECT)
