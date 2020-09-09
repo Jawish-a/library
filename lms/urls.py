@@ -38,10 +38,10 @@ urlpatterns = [
     path('memberships/<int:membership_id>/delete', views.membership_delete, name='memberships_delete'),
     
     # book links
-    path('books/', views.book_list, name='books_list'),
-    path('books/create/', views.book_create, name='books_create'),
-    path('books/<int:book_id>/update', views.book_update, name='books_update'),
-    path('books/<int:book_id>/delete', views.book_delete, name='books_delete'),
+    # path('books/', views.book_list, name='books_list'),
+    # path('books/create/', views.book_create, name='books_create'),
+    # path('books/<int:book_id>/update', views.book_update, name='books_update'),
+    # path('books/<int:book_id>/delete', views.book_delete, name='books_delete'),
     
 ]
 # media and static links
