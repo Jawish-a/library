@@ -15,13 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+
 from library import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     #  auth links
-    path('register/',views.register ,name='register'),
-    path('login/',views.login ,name='login'),
-    path('logout/',views.logout ,name='logout'),
-
+    path('signup/',views.signup ,name='signup'),
+    path('signin/',views.signin ,name='signin'),
+    path('signout/',views.signout ,name='signout'),
+    # basic links
+    path('', views.homepage, name='homepage'),
+    path('404/', views.not_found, name='404'),
+    # library links
 ]
+# media and static links
+if settings.DEBUG:
+	urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+	urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

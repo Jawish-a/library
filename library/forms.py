@@ -9,10 +9,10 @@ from .models import Library, Membership
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email' ,'password']
+        fields = ['username', 'password']
         
         widgets={
-        'password': forms.PasswordInput(),
+            'password': forms.PasswordInput(),
         }
 
 class LoginForm(forms.Form):

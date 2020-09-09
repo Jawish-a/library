@@ -9,16 +9,16 @@ from .models import Library, Membership, Member
 #       basic views                                                  #
 #####################################################################
 def homepage(request):
-    pass
+    return render(request, 'homepage.html')
 
 def not_found(request):
-    pass
+    return render(request, '404.html')
 
 #####################################################################
 #       auth views                                                  #
 #####################################################################
 
-def register(request):
+def signup(request):
     form = RegisterForm()
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -27,13 +27,13 @@ def register(request):
             user.set_password(user.password)
             user.save()
             login(request, user)
-            # return redirect("restaurant-list")
+            return redirect("homepage")
     context = {
         "form":form,
     }
-    return render(request, 'register.html', context)
+    return render(request, 'signup.html', context)
 
-def login(request):
+def signin(request):
     form = LoginForm()
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -45,13 +45,13 @@ def login(request):
             auth_user = authenticate(username=username, password=password)
             if auth_user is not None:
                 login(request, auth_user)
-                return redirect('restaurant-list')
+                return redirect('homepage')
     context = {
         "form":form
     }
     return render(request, 'signin.html', context)
 
-def logout(request):
+def signout(request):
     logout(request)
     return redirect("signin")
 
