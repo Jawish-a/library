@@ -37,10 +37,12 @@ class Book(models.Model):
     auther = models.ForeignKey("Auther", on_delete=models.CASCADE, related_name="books")
     year = models.DateField()
     isbn = models.CharField(max_length=13, validators=[MinLengthValidator(10)], unique=True)
+    cover = models.ImageField(upload_to='book_covers', null=True, blank=True)
     # if the genre is deleted set the value to null
     # many to many relationship because its gonna be many books can have many genre 
     genre = models.ManyToManyField("Genre", related_name='genres')
     copies = models.IntegerField(default=1)
+    library = models.ForeignKey(Library, on_delete=models.PROTECT)
 
 class Auther(models.Model):
     name = models.CharField(max_length=191)
