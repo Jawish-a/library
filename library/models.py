@@ -19,7 +19,6 @@ class Membership(models.Model):
     library = models.ForeignKey(Library, default=1, related_name='memberships', on_delete=models.CASCADE)
     name = models.CharField(max_length=120)
     period = models.CharField(max_length=1, choices=periods)
-    is_active = models.BooleanField(default=False)
 
 class Member(models.Model):
     genders = (
@@ -29,7 +28,9 @@ class Member(models.Model):
     gender = models.CharField(max_length=1, choices=genders)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     library = models.ForeignKey(Library, on_delete=models.CASCADE, related_name="members")
-    membership = models.OneToOneField(Membership, default=1 ,on_delete=models.CASCADE, related_name="mempership")
+    membership = models.ForeignKey(Membership, default=1 ,on_delete=models.CASCADE, related_name="mempership")
+    is_active = models.BooleanField(default=False)
+
 
 class Book(models.Model):
     name = models.CharField(max_length=191)

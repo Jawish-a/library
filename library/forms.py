@@ -40,4 +40,4 @@ class LibraryForm(forms.ModelForm):
 class MembershipForm(forms.ModelForm):
     class Meta:
         model = Membership
-        fields = '__all__'
+        exclude = ['library',]

@@ -30,6 +30,19 @@ urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('404/', views.not_found, name='404'),
     # library links
+
+    # membership links
+    path('memberships/', views.membership_list, name='memberships_list'),
+    path('memberships/create/', views.membership_create, name='memberships_create'),
+    path('memberships/<int:membership_id>/update', views.membership_update, name='memberships_update'),
+    path('memberships/<int:membership_id>/delete', views.membership_delete, name='memberships_delete'),
+    
+    # book links
+    path('books/', views.book_list, name='books_list'),
+    path('books/create/', views.book_create, name='books_create'),
+    path('books/<int:book_id>/update', views.book_update, name='books_update'),
+    path('books/<int:book_id>/delete', views.book_delete, name='books_delete'),
+    
 ]
 # media and static links
 if settings.DEBUG:

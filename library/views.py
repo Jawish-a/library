@@ -56,7 +56,7 @@ def signout(request):
     return redirect("signin")
 
 #####################################################################
-#       library views                                               #
+#       library views for admin and staff only                      #
 #####################################################################
 
 def library_details(request, library_id=1):
@@ -117,20 +117,30 @@ def library_delete(request, library_id):
 
 def membership_list(request, library_id=1):
     library = Library.objects.get(id=library_id)
-    if (not request.user.is_staff) or (request.user != library.manager):
+    if request.user.is_staff or request.user != library.manager:
         return redirect('404')
     memberships = library.memberships.all()
     context = {
         'memberships': memberships
     }
-    return render(request, 'memberships_list', context)
+    return render(request, 'manager/membership_list.html', context)
 
 def membership_create(request, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if request.user.is_staff or request.user != library.manager:
+        return redirect('404')
     form = MembershipForm()
+    if request.method == "POST":
+        form = MembershipForm(request.POST)
+        if form.is_valid:
+            membership = form.save(commit=False)
+            membership.library = library
+            membership.save()
+            return redirect('memberships_list')
     context = {
         'form': form
     }
-    return render(request, 'memberships_list', context)
+    return render(request, 'manager/membership_create.html', context)
 
 def membership_update(request, membership_id, library_id=1):
     library = Library.objects.get(id=library_id)
@@ -151,3 +161,7 @@ def membership_update(request, membership_id, library_id=1):
 def membership_delete(request, membership_id):
 	Membership.objects.get(id=membership_id).delete()
 	return redirect('membership_list')
+
+#####################################################################
+#       book views                                                  #
+#####################################################################

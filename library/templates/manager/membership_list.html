@@ -1,0 +1,33 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}List of Memberships{% endblock title %}
+
+{% block content %}
+<div class="row py-2">
+    <div class="col-md-6">
+        <h1>list of memberships</h1>
+    </div>
+</div>
+<div class="row py-5">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <a class="text-decoration-none" href="{% url 'memberships_create' %}">
+            <div class="card shadow mb-4 text-center" style="min-height: 18rem">
+                <i class="fa fa-plus fa-7x text-gray-300 p-3"></i>
+                <h3 class="p-3 text-muted">Add Membership</h3>
+            </div>
+        </a>
+    </div>
+    {% if memberships %}
+    {% for membership in memberships %}
+
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card shadow mb-4 text-center" style="min-height: 18rem">
+            <i class="fa fa-id-card fa-7x text-gray-300 p-3"></i>
+            <h3 class="p-3">{{membership.name}}</h3>
+        </div>
+    </div>
+
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock content %}

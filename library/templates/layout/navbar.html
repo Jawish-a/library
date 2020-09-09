@@ -25,6 +25,19 @@
                         Hello {{request.user}}
                     </span>
                 </li>
+                <li class="nav-item active">
+                    <span class="nav-link">
+                        |
+                    </span>
+                </li>
+                {% if request.user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Create a Library</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">View Libraries</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'signout' %}">logout</a>
                 </li>
@@ -36,9 +49,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'signin' %}">login</a>
                 </li>
-
                 {% endif %}
-
             </ul>
         </div>
     </div>
