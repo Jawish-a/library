@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 
-from .forms import RegisterForm, LoginForm, LibraryForm, MembershipForm
-from .models import Library, Membership, Member
+from .forms import RegisterForm, LoginForm, LibraryForm, MembershipForm, BookForm
+from .models import Library, Membership, Member, Book
 
 #####################################################################
 #       basic views                                                  #
@@ -165,3 +165,48 @@ def membership_delete(request, membership_id):
 #####################################################################
 #       book views                                                  #
 #####################################################################
+
+def book_list(request, library_id=1):
+    library = Library.objects.get(id=library_id)
+    books = library.books.all()
+    context = {
+        'books': books
+    }
+    return render(request, 'book/books_list.html', context)
+
+def book_create(request, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if request.user.is_staff or request.user != library.manager:
+        return redirect('404')
+    form = BookForm()
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid:
+            book = form.save(commit=False)
+            book.library = library
+            book.save()
+            return redirect('books_list')
+    context = {
+        'form': form
+    }
+    return render(request, 'book/book_create.html', context)
+
+def book_update(request, book_id, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if (not request.user.is_staff) or (request.user != library.manager):
+        return redirect('404')
+
+    book = Book.objects.get(id=book_id)
+    if request.method == "POST":
+        form = BookForm(instance=book)
+        if form.is_valid():
+            form.save()
+    context = {
+        'form': form,
+        'book': book
+    }
+    return render(request, 'books_list', context)
+
+def book_delete(request, book_id):
+	Book.objects.get(id=book_id).delete()
+	return redirect('book_list')
