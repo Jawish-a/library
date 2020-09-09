@@ -45,3 +45,10 @@ class Auther(models.Model):
     bio = models.TextField(blank=True, null=True)
 class Genre(models.Model):
     name = models.CharField(max_length=191)
+
+class LibraryLog(models.Model):
+    library = models.OneToOneField(Library, on_delete=models.PROTECT)
+    member = models.ForeignKey(Member, on_delete=models.PROTECT)
+    book = models.ForeignKey(Book, on_delete=models.PROTECT)
+    borrow_date = models.DateTimeField(auto_now=True, auto_now_add=True)
+    return_date = models.DateTimeField(auto_now=True, auto_now_add=True)
