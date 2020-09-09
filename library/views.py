@@ -266,7 +266,7 @@ def auther_delete(request, auther_id):
 #####################################################################
 
 def genre_list(request):
-    genres = Genre.all()
+    genres = Genre.objects.all()
     context = {
         'genres': genres
     }
