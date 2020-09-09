@@ -45,6 +45,8 @@ class Book(models.Model):
 class Auther(models.Model):
     name = models.CharField(max_length=191)
     bio = models.TextField(blank=True, null=True)
+    def __str__(self):
+        return self.name
 class Genre(models.Model):
     name = models.CharField(max_length=191)
 
