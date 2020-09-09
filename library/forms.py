@@ -37,7 +37,7 @@ class LibraryForm(forms.ModelForm):
 #       membership forms                                            #
 #####################################################################
 
-class MembershipForm(form.ModelForm):
+class MembershipForm(forms.ModelForm):
     class Meta:
         model = Membership
         fields = '__all__'
