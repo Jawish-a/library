@@ -52,4 +52,4 @@ class LibraryLog(models.Model):
     member = models.ForeignKey(Member, on_delete=models.PROTECT)
     book = models.ForeignKey(Book, on_delete=models.PROTECT)
     borrow_date = models.DateTimeField(auto_now=True, auto_now_add=True)
-    return_date = models.DateTimeField(auto_now=True, auto_now_add=True)
+    return_date = models.DateTimeField(null=True, blank=True)
