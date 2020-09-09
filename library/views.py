@@ -1,10 +1,20 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm, LibraryForm
 from django.contrib.auth import login, authenticate, logout
+from .models import Library
 
 #####################################################################
-#       auth links                                                  #
+#       basic views                                                  #
+#####################################################################
+def homepage(request):
+    pass
+
+def not_found(request):
+    pass
+
+#####################################################################
+#       auth views                                                  #
 #####################################################################
 
 def register(request):
@@ -46,5 +56,57 @@ def logout(request):
     return redirect("signin")
 
 #####################################################################
-#                                                                   #
+#       library views                                               #
 #####################################################################
+
+def library_details(request, library_id=1):
+    library_obj = Library.objects.get(id=library_id)
+    context = {
+
+    }
+    return render(request, 'library_details.html', context)
+
+def library_create(request):
+    # only staff can create a library
+    if not request.user.is_staff:
+        return redirect('404')
+    
+    form = LibraryForm()
+    if request.method == "POST":
+        form = LibraryForm(request.POST)
+        if form.is_valid:
+            library_obj = form.save(commit=False)
+            library_obj.manager = request.user
+            library_obj.save()
+            return redirect('library_details', library_obj.id)
+    context = {
+        "form": form,
+    }
+    return render(request, 'library_create.html', context)
+
+def library_update(request, library_id):
+    # validate if the user is staff or if its a manager of the library
+    library_obj = Library.objects.get(id=library_id)
+    if not (request.user.is_staff or request.user == library_obj.owner):
+        return redirect('404')
+
+    form = LibraryForm(instance=library_obj)
+    if request.method == "POST":
+        form = LibraryForm(request.POST, request.FILES, instance=library_obj)
+        if form.is_valid():
+            form.save()
+            return redirect('library_details.html')
+    context = {
+        "library": library_obj,
+        "form":form,
+    }
+    return render(request, 'library_update.html', context)
+
+def library_delete(request, library_id):
+    # only staff can delete library
+    if not request.user.is_staff:
+        return redirect('404')
+    
+    library_obj = Library.objects.get(id=library_id)
+    library_obj.delete()
+    return redirect('')

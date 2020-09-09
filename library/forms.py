@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Library
 
 #####################################################################
 #       auth forms                                                  #
@@ -19,5 +20,16 @@ class LoginForm(forms.Form):
     password = forms.CharField(required=True, widget=forms.PasswordInput())
 
 #####################################################################
-#                                                         #
+#       library forms                                               #
 #####################################################################
+
+class LibraryForm(forms.ModelForm):
+    class Meta:
+        model = Library
+        fields = '__all__'
+        
+        widgets = {
+        	'opening_time': forms.TimeInput(attrs={'type':'time'}),
+        	'closing_time': forms.TimeInput(attrs={'type':'time'}),
+        }
+
