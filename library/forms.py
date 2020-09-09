@@ -49,7 +49,8 @@ class MembershipForm(forms.ModelForm):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        exclude = ['library']
+        exclude = ['library',]
+
 
 #####################################################################
 #       auther form                                                 #
