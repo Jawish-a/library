@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Library, Membership, Book
+from .models import Library, Membership, Book, Auther, Genre
 
 #####################################################################
 #       auth forms                                                  #
@@ -49,4 +49,22 @@ class MembershipForm(forms.ModelForm):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
+        fields = "__all__"
+
+#####################################################################
+#       auther form                                                 #
+#####################################################################
+
+class AutherForm(forms.ModelForm):
+    class Meta:
+        model = Auther
+        fields = "__all__"
+
+#####################################################################
+#       genre form                                                  #
+#####################################################################
+
+class GenreForm(forms.ModelForm):
+    class Meta:
+        model = Genre
         fields = "__all__"

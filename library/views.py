@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 
-from .forms import RegisterForm, LoginForm, LibraryForm, MembershipForm, BookForm
-from .models import Library, Membership, Member, Book
+from .forms import RegisterForm, LoginForm, LibraryForm, MembershipForm, BookForm, AutherForm, GenreForm
+from .models import Library, Membership, Member, Book, Auther, Genre
 
 #####################################################################
 #       basic views                                                  #
@@ -136,7 +136,7 @@ def membership_create(request, library_id=1):
             membership = form.save(commit=False)
             membership.library = library
             membership.save()
-            return redirect('memberships_list')
+            return redirect('membership_list')
     context = {
         'form': form
     }
@@ -152,11 +152,13 @@ def membership_update(request, membership_id, library_id=1):
         form = MembershipForm(instance=membership)
         if form.is_valid():
             form.save()
+            return redirect('membership_list')
+
     context = {
         'form': form,
         'membership': membership
     }
-    return render(request, 'memberships_list', context)
+    return render(request, 'membership_list', context)
 
 def membership_delete(request, membership_id):
 	Membership.objects.get(id=membership_id).delete()
@@ -172,7 +174,7 @@ def book_list(request, library_id=1):
     context = {
         'books': books
     }
-    return render(request, 'book/books_list.html', context)
+    return render(request, 'book/book_list.html', context)
 
 def book_create(request, library_id=1):
     library = Library.objects.get(id=library_id)
@@ -185,7 +187,7 @@ def book_create(request, library_id=1):
             book = form.save(commit=False)
             book.library = library
             book.save()
-            return redirect('books_list')
+            return redirect('book_list')
     context = {
         'form': form
     }
@@ -200,13 +202,108 @@ def book_update(request, book_id, library_id=1):
     if request.method == "POST":
         form = BookForm(instance=book)
         if form.is_valid():
-            form.save()
+            book.save()
+            return redirect('book_list')
     context = {
         'form': form,
         'book': book
     }
-    return render(request, 'books_list', context)
+    return render(request, 'book_list', context)
 
 def book_delete(request, book_id):
 	Book.objects.get(id=book_id).delete()
 	return redirect('book_list')
+
+#####################################################################
+#       auther views                                                #
+#####################################################################
+
+def auther_list(request):
+    authers = Auther.all()
+    context = {
+        'authers': authers
+    }
+    return render(request, 'auther/auther_list.html', context)
+
+def auther_create(request, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if request.user.is_staff or request.user != library.manager:
+        return redirect('404')
+    form = AutherForm()
+    if request.method == "POST":
+        form = AutherForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return redirect('auther_list')
+    context = {
+        'form': form
+    }
+    return render(request, 'auther/auther_create.html', context)
+
+def auther_update(request, auther_id, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if (not request.user.is_staff) or (request.user != library.manager):
+        return redirect('404')
+
+    auther = Auther.objects.get(id=auther_id)
+    if request.method == "POST":
+        form = AutherForm(instance=auther)
+        if form.is_valid():
+            form.save()
+            return redirect('auther_list')
+    context = {
+        'form': form,
+        'auther': auther
+    }
+    return render(request, 'auther_list', context)
+
+def auther_delete(request, auther_id):
+	Auther.objects.get(id=auther_id).delete()
+	return redirect('auther_list')
+
+#####################################################################
+#       genre views                                                 #
+#####################################################################
+
+def genre_list(request):
+    genres = Genre.all()
+    context = {
+        'genres': genres
+    }
+    return render(request, 'genre/genre_list.html', context)
+
+def genre_create(request, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if request.user.is_staff or request.user != library.manager:
+        return redirect('404')
+    form = GenreForm()
+    if request.method == "POST":
+        form = GenreForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return redirect('genre_list')
+    context = {
+        'form': form
+    }
+    return render(request, 'genre/genre_create.html', context)
+
+def genre_update(request, genre_id, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if (not request.user.is_staff) or (request.user != library.manager):
+        return redirect('404')
+
+    genre = Genre.objects.get(id=genre_id)
+    if request.method == "POST":
+        form = GenreForm(instance=genre)
+        if form.is_valid():
+            form.save()
+            return redirect('genre_list')
+    context = {
+        'form': form,
+        'genre': genre
+    }
+    return render(request, 'genre_list', context)
+
+def genre_delete(request, genre_id):
+	Genre.objects.get(id=genre_id).delete()
+	return redirect('genre_list')

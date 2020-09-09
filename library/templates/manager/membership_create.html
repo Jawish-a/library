@@ -11,7 +11,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
             </div>
             <div class="card-body">
-                <form id="membershipForm" action="{% url 'memberships_create' %}" method="POST">
+                <form id="membershipForm" action="{% url 'membership_create' %}" method="POST">
                     {{ form|crispy }}
                     {% csrf_token %}
                 </form>

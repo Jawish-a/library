@@ -32,17 +32,29 @@ urlpatterns = [
     # library links
 
     # membership links
-    path('memberships/', views.membership_list, name='memberships_list'),
-    path('memberships/create/', views.membership_create, name='memberships_create'),
-    path('memberships/<int:membership_id>/update', views.membership_update, name='memberships_update'),
-    path('memberships/<int:membership_id>/delete', views.membership_delete, name='memberships_delete'),
+    path('memberships/', views.membership_list, name='membership_list'),
+    path('membership/create/', views.membership_create, name='membership_create'),
+    path('membership/<int:membership_id>/update', views.membership_update, name='membership_update'),
+    path('membership/<int:membership_id>/delete', views.membership_delete, name='membership_delete'),
     
     # book links
-    path('books/', views.book_list, name='books_list'),
-    path('books/create/', views.book_create, name='books_create'),
-    path('books/<int:book_id>/update', views.book_update, name='books_update'),
-    path('books/<int:book_id>/delete', views.book_delete, name='books_delete'),
+    path('books/', views.book_list, name='book_list'),
+    path('book/create/', views.book_create, name='book_create'),
+    path('book/<int:book_id>/update', views.book_update, name='book_update'),
+    path('book/<int:book_id>/delete', views.book_delete, name='book_delete'),
     
+    # auther links
+    path('authers/', views.auther_list, name='auther_list'),
+    path('auther/create/', views.auther_create, name='auther_create'),
+    path('auther/<int:auther_id>/update', views.auther_update, name='auther_update'),
+    path('auther/<int:auther_id>/delete', views.auther_delete, name='auther_delete'),
+
+    # genre links
+    path('genres/', views.genre_list, name='genre_list'),
+    path('genre/create/', views.genre_create, name='genre_create'),
+    path('genre/<int:genre_id>/update', views.genre_update, name='genre_update'),
+    path('genre/<int:genre_id>/delete', views.genre_delete, name='genre_delete'),
+
 ]
 # media and static links
 if settings.DEBUG:
