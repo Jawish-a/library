@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinLengthValidator
 
 class Library(models.Model):
     manager = models.ForeignKey(User, default=1, on_delete=models.CASCADE, related_name="managers")
@@ -15,7 +16,7 @@ class Membership(models.Model):
 		("M", "Monthly"),
 		("Y", "Yearly"),
 	)
-    library = models.ForeignKey(Library, default=1, related_name='memberships')
+    library = models.ForeignKey(Library, default=1, related_name='memberships', on_delete=models.CASCADE)
     name = models.CharField(max_length=120)
     period = models.CharField(max_length=1, choices=periods)
     is_active = models.BooleanField(default=False)
@@ -34,10 +35,10 @@ class Book(models.Model):
     name = models.CharField(max_length=191)
     auther = models.ForeignKey("Auther", on_delete=models.CASCADE, related_name="books")
     year = models.DateField()
-    isbn = models.CharField(min_length=10, max_length=13, unique=True)
+    isbn = models.CharField(max_length=13, validators=[MinLengthValidator(10)], unique=True)
     # if the genre is deleted set the value to null
     # many to many relationship because its gonna be many books can have many genre 
-    genre = models.ManyToManyField("Genre", on_delete=models.SET_NULL, related_name='genres')
+    genre = models.ManyToManyField("Genre", related_name='genres')
     copies = models.IntegerField(default=1)
 
 class Auther(models.Model):
