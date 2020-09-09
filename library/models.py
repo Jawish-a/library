@@ -40,7 +40,7 @@ class Book(models.Model):
     cover = models.ImageField(upload_to='book_covers', null=True, blank=True)
     # if the genre is deleted set the value to null
     # many to many relationship because its gonna be many books can have many genre 
-    genre = models.ManyToManyField("Genre", related_name='genres')
+    genres = models.ManyToManyField("Genre", related_name='genres')
     copies = models.IntegerField(default=1)
     library = models.ForeignKey(Library, on_delete=models.PROTECT, related_name="books")
     def __str__(self):

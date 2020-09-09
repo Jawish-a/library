@@ -42,6 +42,8 @@ class MembershipForm(forms.ModelForm):
         model = Membership
         exclude = ['library',]
 
+        
+
 #####################################################################
 #       book form                                                   #
 #####################################################################
@@ -50,6 +52,8 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         exclude = ['library',]
+        widgets = { 'genre': forms.CheckboxSelectMultiple }
+
 
 
 #####################################################################
