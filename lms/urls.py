@@ -61,6 +61,13 @@ urlpatterns = [
     path('genre/<int:genre_id>/update', views.genre_update, name='genre_update'),
     path('genre/<int:genre_id>/delete', views.genre_delete, name='genre_delete'),
 
+    # log links
+    path('log/', views.log_list, name='log_list'),
+    path('borrow/', views.log_create, name='log_create'),
+    # path('return/<int:log_id>/', views.log_update, name='log_return'),
+    path('return/<int:log_id>/', views.log_return, name='log_return'),
+
+
 ]
 # media and static links
 if settings.DEBUG:

@@ -73,12 +73,14 @@
                     <td>{{ book.copies }}</td>
                     {% endif %}
                     <td>
-                        <a href="{% url 'book_delete' book.id %}" class="btn btn-sm btn-danger"> <i class="fa fa-times"
-                                aria-hidden="true"></i></a>
-                        <a href="{% url 'book_update' book.id %}" class="btn btn-sm btn-info"> <i class="fa fa-pencil"
-                                aria-hidden="true"></i></a>
                         <a href="{% url 'book_detail' book.id %}" class="btn btn-sm btn-success"> <i class="fa fa-eye"
                                 aria-hidden="true"></i></a>
+                        {% if request.user.library %}
+                        <a href="{% url 'book_update' book.id %}" class="btn btn-sm btn-info"> <i class="fa fa-pencil"
+                                aria-hidden="true"></i></a>
+                        <a href="{% url 'book_delete' book.id %}" class="btn btn-sm btn-danger"> <i class="fa fa-times"
+                                aria-hidden="true"></i></a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

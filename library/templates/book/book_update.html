@@ -1,0 +1,53 @@
+{% extends 'layout/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Update {{book}}{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-9">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Book Update Form</h6>
+            </div>
+            <div class="card-body">
+                <form id="bookForm" action="{% url 'book_update' book.id %}" method="POST" enctype="multipart/form-data">
+                    {{ form|crispy }}
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Accordion -->
+            <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                aria-expanded="true" aria-controls="collapseCardExample">
+                <h6 class="m-0 font-weight-bold text-primary">Done ?</h6>
+            </a>
+            <!-- Card Content - Collapse -->
+            <div class="collapse show" id="collapseCardExample">
+                <div class="card-body">
+                    <button type="submit" form="bookForm" class="btn btn-block btn-primary">submit</button>
+                    <a href="" class="btn btn-block btn-danger">cancel</a>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <!-- Card Header - Accordion -->
+            <a href="#options" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                aria-expanded="true" aria-controls="options">
+                <h6 class="m-0 font-weight-bold text-primary">Options</h6>
+            </a>
+            <!-- Card Content - Collapse -->
+            <div class="collapse show" id="options">
+                <div class="card-body">
+                    <a href="{% url 'auther_create' %}" class="btn btn-block btn-secondary">Add Auther</a>
+                    <a href="{% url 'genre_create' %}" class="btn btn-block btn-secondary">Add Genre</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

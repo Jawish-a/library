@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Library, Membership, Book, Auther, Genre, Member
+from .models import Library, Membership, Book, Auther, Genre, Member, LibraryLog
 
 #####################################################################
 #       auth forms                                                  #
@@ -83,3 +83,14 @@ class GenreForm(forms.ModelForm):
     class Meta:
         model = Genre
         fields = "__all__"
+
+
+#####################################################################
+#       Library Log form                                            #
+#####################################################################
+
+class LibraryLogForm(forms.ModelForm):
+    class Meta:
+        model = LibraryLog
+        exclude = ['library']
+

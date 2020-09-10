@@ -29,10 +29,10 @@ class Member(models.Model):
         ("F", "Female"),
     )
     gender = models.CharField(max_length=1, choices=genders)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, )
     membership = models.ForeignKey(Membership, default=1 ,on_delete=models.CASCADE, related_name="members")
     def __str__(self):
-        return self.name
+        return self.user.username
 
 class Book(models.Model):
     name = models.CharField(max_length=191)

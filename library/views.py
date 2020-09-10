@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 
-from .forms import RegisterForm, LoginForm, LibraryForm, MembershipForm, BookForm, AutherForm, GenreForm, MemberForm 
-from .models import Library, Membership, Member, Book, Auther, Genre
+from .forms import RegisterForm, LoginForm, LibraryForm, MembershipForm, BookForm, AutherForm, GenreForm, MemberForm, LibraryLogForm
+from .models import Library, Membership, Member, Book, Auther, Genre, LibraryLog
+import datetime
 
 #####################################################################
 #       basic views                                                  #
@@ -194,6 +195,7 @@ def book_create(request, library_id=1):
             book = form.save(commit=False)
             book.library = library
             book.save()
+            form.save_m2m()
             return redirect('book_list')
     context = {
         'form': form
@@ -202,24 +204,29 @@ def book_create(request, library_id=1):
 
 def book_update(request, book_id, library_id=1):
     library = Library.objects.get(id=library_id)
-    if (not request.user.is_staff) or (request.user != library.manager):
+    if request.user.is_staff or request.user != library.manager:
         return redirect('404')
-
     book = Book.objects.get(id=book_id)
+    form = BookForm(instance=book)
     if request.method == "POST":
-        form = BookForm(instance=book)
+        form = BookForm(request.POST, instance=book)
         if form.is_valid():
-            book.save()
+            form.save(commit=False)
+            form.library = library
+            form.save()
             return redirect('book_list')
     context = {
         'form': form,
-        'book': book
+        'book': book,
     }
-    return render(request, 'book_list', context)
+    return render(request, 'book/book_update.html', context)
 
-def book_delete(request, book_id):
-	Book.objects.get(id=book_id).delete()
-	return redirect('book_list')
+def book_delete(request, book_id, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if request.user.is_staff or request.user != library.manager:
+        return redirect('404')
+    Book.objects.get(id=book_id).delete()
+    return redirect('book_list')
 
 #####################################################################
 #       auther views                                                #
@@ -353,3 +360,50 @@ def member_create(request, library_id=1):
 def member_delete(request, member_id):
 	Member.objects.get(id=member_id).delete()
 	return redirect('membership_list')
+
+
+#####################################################################
+#       member views                                                 #
+#####################################################################
+
+def log_list(request, library_id=1):
+    library = Library.objects.get(id=library_id)
+
+    if request.user.is_staff or request.user != library.manager:
+        return redirect('404')
+    logs = LibraryLog.objects.all()
+    context = {
+        'logs': logs
+    }
+    return render(request, 'manager/log_list.html', context)
+
+
+def log_create(request, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if request.user.is_staff or request.user != library.manager:
+        return redirect('404')
+    
+    form = LibraryLogForm()
+    if request.method == "POST":
+        form = LibraryLogForm(request.POST)
+        if form.is_valid:
+            log = form.save(commit=False)
+            log.library = library
+            log.save()
+            return redirect('log_list')
+    context = {
+        'form': form
+    }
+    return render(request, 'manager/log_create.html', context)
+
+def log_return(request, log_id, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if request.user.is_staff or request.user != library.manager:
+        return redirect('404')
+    
+    log = LibraryLog.objects.get(id=log_id)
+    log.return_date = datetime.datetime.now()
+    log.save()
+    return redirect('log_list')
+
+
