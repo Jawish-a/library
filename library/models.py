@@ -60,6 +60,7 @@ class Genre(models.Model):
 class LibraryLog(models.Model):
     library = models.OneToOneField(Library, on_delete=models.PROTECT)
     member = models.ForeignKey(Member, on_delete=models.PROTECT)
-    book = models.ForeignKey(Book, on_delete=models.PROTECT)
+    book = models.ForeignKey(Book, on_delete=models.PROTECT, related_name="logs")
     borrow_date = models.DateTimeField(auto_now=True)
     return_date = models.DateTimeField(null=True, blank=True)
+

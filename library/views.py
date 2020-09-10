@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
+# for sending emails to the user after she is added as a member
+# from django.core.mail import send_mail
+# from django.http import HttpResponse
 
 from .forms import RegisterForm, LoginForm, LibraryForm, MembershipForm, BookForm, AutherForm, GenreForm, MemberForm, LibraryLogForm
 from .models import Library, Membership, Member, Book, Auther, Genre, LibraryLog
@@ -14,6 +17,13 @@ def homepage(request):
 
 def not_found(request):
     return render(request, '404.html')
+
+def profile(request):
+    context = {
+        "user": request.user,
+    }
+    return render(request,'profile.html', context)
+
 
 #####################################################################
 #       auth views                                                  #
@@ -344,12 +354,13 @@ def member_create(request, library_id=1):
     library = Library.objects.get(id=library_id)
     if request.user.is_staff or request.user != library.manager:
         return redirect('404')
-
     form = MemberForm()
     if request.method == "POST":
         form = MemberForm(request.POST)
         if form.is_valid:
-            form.save()
+            member = form.save(commit=False)
+            member.save()
+            # sendSimpleEmail(request, member.user.id)
             return redirect('membership_list')
     context = {
         'form': form
@@ -361,9 +372,13 @@ def member_delete(request, member_id):
 	Member.objects.get(id=member_id).delete()
 	return redirect('membership_list')
 
+# def sendSimpleEmail(request,member_id):
+#     member = User.objects.get(member_id)
+#     res = send_mail(f"hello {member}", "you are now a member of library app, start reading books", "noreply@library.app", member.email)
+#     return HttpResponse('%s'%res)
 
 #####################################################################
-#       member views                                                 #
+#       log views                                                 #
 #####################################################################
 
 def log_list(request, library_id=1):

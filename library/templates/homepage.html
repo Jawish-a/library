@@ -3,5 +3,45 @@
 {% block title %}Homepage{% endblock title %}
 
 {% block content %}
-
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+            <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+            <div class="col-lg-7">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-book-half"
+                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M8.5 2.687v9.746c.935-.53 2.12-.603 3.213-.493 1.18.12 2.37.461 3.287.811V2.828c-.885-.37-2.154-.769-3.388-.893-1.33-.134-2.458.063-3.112.752zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z" />
+                            </svg>
+                            <span class="pl-3">LMS</span></h1>
+                        <h1 class="h2 text-gray-900 mb-4">Are you ready to explorer new worlds!</h1>
+                    </div>
+                    <div class="py-5">
+                        <p>Django comes with a ready and easy-to-use light engine to send e-mail. Similar to Python you
+                            just need an import of smtplib. In Django you just need to import django.core.mail. To start
+                            sending e-mail, edit your project settings.py file and set the following options −
+                        </p>
+                        <p>Django comes with a ready and easy-to-use light engine to send e-mail. Similar to Python you
+                            just need an import of smtplib. In Django you just need to import django.core.mail. To start
+                            sending e-mail, edit your project settings.py file and set the following options −
+                        </p>
+                    </div>
+                    <hr class="py-3">
+                    {% if request.user.is_authenticated %}
+                    <a href="{% url 'book_list' %}" class="btn btn-facebook btn-user btn-block">
+                        <i class="fa fa-search fa-fw mr-3"></i>find your next book
+                    </a>
+                    {% else %}
+                    <a href="{% url 'signup' %}" class="btn btn-primary btn-user btn-block">
+                        Register Account
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

@@ -23,6 +23,8 @@
 
 <body>
     {% include 'layout/navbar.html' %}
+    {% block homepage %}
+    {% endblock homepage %} 
     <div class="container mt-4">
         {% block content %}
         {% endblock content %}

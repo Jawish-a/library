@@ -9,7 +9,7 @@ from .models import Library, Membership, Book, Auther, Genre, Member, LibraryLog
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields = ['username', 'password', 'email']
         
         widgets={
             'password': forms.PasswordInput(),

@@ -28,6 +28,7 @@ urlpatterns = [
     path('signout/',views.signout ,name='signout'),
     # basic links
     path('', views.homepage, name='homepage'),
+    path('profile', views.profile, name='profile'),
     path('404/', views.not_found, name='404'),
     # library links
 
