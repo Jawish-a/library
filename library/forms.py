@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Library, Membership, Book, Auther, Genre
+from .models import Library, Membership, Book, Auther, Genre, Member
 
 #####################################################################
 #       auth forms                                                  #
@@ -42,7 +42,17 @@ class MembershipForm(forms.ModelForm):
         model = Membership
         exclude = ['library',]
 
-        
+
+#####################################################################
+#       member forms                                            #
+#####################################################################
+
+class MemberForm(forms.ModelForm):
+    class Meta:
+        model = Member
+        fields = '__all__'
+
+
 
 #####################################################################
 #       book form                                                   #

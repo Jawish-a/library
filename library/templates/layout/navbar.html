@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{% url 'homepage' %}">
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-book-half" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -15,7 +15,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home
+                    <a class="nav-link" href="{% url 'homepage' %}">Home
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
@@ -30,7 +30,7 @@
                         |
                     </span>
                 </li>
-                {% if request.user.is_staff %}
+                {% if request.user.is_staff%}
                 <li class="nav-item">
                     <a class="nav-link" href="#">Create a Library</a>
                 </li>
@@ -38,6 +38,33 @@
                     <a class="nav-link" href="#">View Libraries</a>
                 </li>
                 {% endif %}
+                {% if request.user.library %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'book_list' %}">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'book_create' %}">Create a book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'membership_list' %}">Memberships</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'member_create' %}">Add Member</a>
+                </li>
+                {% endif %}
+                <li class="nav-item active">
+                    <span class="nav-link">
+                        |
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'homepage' %}">Library log</a>
+                </li>
+                <li class="nav-item active">
+                    <span class="nav-link">
+                        |
+                    </span>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'signout' %}">logout</a>
                 </li>

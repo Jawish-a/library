@@ -37,6 +37,11 @@ urlpatterns = [
     path('membership/<int:membership_id>/update', views.membership_update, name='membership_update'),
     path('membership/<int:membership_id>/delete', views.membership_delete, name='membership_delete'),
     
+    # members
+    path('membership/<int:membership_id>/members', views.member_list, name='member_list'),
+    path('member/create', views.member_create, name='member_create'),
+    
+
     # book links
     path('books/', views.book_list, name='book_list'),
     path('book/create/', views.book_create, name='book_create'),

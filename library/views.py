@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 
-from .forms import RegisterForm, LoginForm, LibraryForm, MembershipForm, BookForm, AutherForm, GenreForm
+from .forms import RegisterForm, LoginForm, LibraryForm, MembershipForm, BookForm, AutherForm, GenreForm, MemberForm 
 from .models import Library, Membership, Member, Book, Auther, Genre
 
 #####################################################################
@@ -170,7 +170,7 @@ def membership_delete(request, membership_id):
 
 def book_list(request, library_id=1):
     library = Library.objects.get(id=library_id)
-    books = library.books.all()
+    books = Book.objects.all()
     context = {
         'books': books
     }
@@ -307,3 +307,42 @@ def genre_update(request, genre_id, library_id=1):
 def genre_delete(request, genre_id):
 	Genre.objects.get(id=genre_id).delete()
 	return redirect('genre_list')
+
+
+#####################################################################
+#       member views                                                 #
+#####################################################################
+
+def member_list(request, membership_id, library_id=1):
+    library = Library.objects.get(id=library_id)
+
+    if request.user.is_staff or request.user != library.manager:
+        return redirect('404')
+
+    membership = Membership.objects.get(id=membership_id)
+    members = membership.members.all()
+    context = {
+        'members': members
+    }
+    return render(request, 'manager/member_list.html', context)
+
+def member_create(request, library_id=1):
+    library = Library.objects.get(id=library_id)
+    if request.user.is_staff or request.user != library.manager:
+        return redirect('404')
+
+    form = MemberForm()
+    if request.method == "POST":
+        form = MemberForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return redirect('membership_list')
+    context = {
+        'form': form
+    }
+    return render(request, 'manager/member_create.html', context)
+
+
+def member_delete(request, member_id):
+	Member.objects.get(id=member_id).delete()
+	return redirect('membership_list')

@@ -11,7 +11,7 @@
 {% block content %}
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">List of Books</h6>
+        <h6 class="m-0 font-weight-bold text-primary">List of Members {{membership}}</h6>
     </div>
     <div class="card-body">
 
@@ -24,19 +24,13 @@
                     </th>
                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                         aria-label="Number of books: activate to sort column ascending">
-                        Auther</th>
+                        gender</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+                        aria-label="Number of books: activate to sort column ascending">
+                        email</th>
                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                         aria-label="Last book: activate to sort column ascending">
-                        ISBN-13</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                        aria-label="Last book: activate to sort column ascending">
-                        Year</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                        aria-label="Last book: activate to sort column ascending">
-                        Genres</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                        aria-label="Last book: activate to sort column ascending">
-                        Copies</th>
+                        books</th>
                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                         aria-label="Action: activate to sort column ascending">
                         Action</th>
@@ -45,27 +39,21 @@
             <tfoot>
                 <tr>
                     <th rowspan="1" colspan="1">Name</th>
-                    <th rowspan="1" colspan="1">Auther</th>
-                    <th rowspan="1" colspan="1">ISBN-13</th>
-                    <th rowspan="1" colspan="1">Year</th>
-                    <th rowspan="1" colspan="1">Genre</th>
-                    <th rowspan="1" colspan="1">Copies</th>
+                    <th rowspan="1" colspan="1">gender</th>
+                    <th rowspan="1" colspan="1">email</th>
+                    <th rowspan="1" colspan="1">books</th>
                     <th rowspan="1" colspan="1">Action</th>
                 </tr>
             </tfoot>
             <tbody>
-                {% for book in books %}
+                {% for member in members %}
                 <tr role="row">
-                    <td>{{ book.name }}</td>
-                    <td>{{ book.auther }}</td>
-                    <td>{{ book.isbn }}</td>
-                    <td>{{ book.year }}</td>
+                    <td>{{ member.user }}</td>
+                    <td>{{ member.gender }}</td>
+                    <td>{{ member.email }}</td>
                     <td>
-                        {% for genre in book.genres.all %}
-                        {{genre}},
-                        {% endfor %}
+                        books should appear here
                     </td>
-                    <td>{{ book.copies }}</td>
                     <td>
                         <a href="" class="btn btn-sm btn-danger"> <i class="fa fa-times" aria-hidden="true"></i></a>
                         <a href="" class="btn btn-sm btn-info"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
