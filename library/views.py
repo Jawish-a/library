@@ -176,13 +176,20 @@ def book_list(request, library_id=1):
     }
     return render(request, 'book/book_list.html', context)
 
+def book_detail(request, book_id, library_id=1):
+    book = Book.objects.get(id=book_id)
+    context = {
+        'book': book
+    }
+    return render(request, 'book/book_detail.html', context)
+
 def book_create(request, library_id=1):
     library = Library.objects.get(id=library_id)
     if request.user.is_staff or request.user != library.manager:
         return redirect('404')
     form = BookForm()
     if request.method == "POST":
-        form = BookForm(request.POST)
+        form = BookForm(request.POST, request.FILES)
         if form.is_valid:
             book = form.save(commit=False)
             book.library = library

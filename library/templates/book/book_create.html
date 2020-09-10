@@ -11,7 +11,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Book Create Form</h6>
             </div>
             <div class="card-body">
-                <form id="bookForm" action="{% url 'book_create' %}" method="POST">
+                <form id="bookForm" action="{% url 'book_create' %}" method="POST" enctype="multipart/form-data">
                     {{ form|crispy }}
                     {% csrf_token %}
                 </form>

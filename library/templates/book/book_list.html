@@ -34,9 +34,11 @@
                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                         aria-label="Last book: activate to sort column ascending">
                         Genres</th>
+                    {% if request.user.library %}
                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                         aria-label="Last book: activate to sort column ascending">
                         Copies</th>
+                    {% endif %}
                     <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
                         aria-label="Action: activate to sort column ascending">
                         Action</th>
@@ -49,7 +51,9 @@
                     <th rowspan="1" colspan="1">ISBN-13</th>
                     <th rowspan="1" colspan="1">Year</th>
                     <th rowspan="1" colspan="1">Genre</th>
+                    {% if request.user.library %}
                     <th rowspan="1" colspan="1">Copies</th>
+                    {% endif %}
                     <th rowspan="1" colspan="1">Action</th>
                 </tr>
             </tfoot>
@@ -65,10 +69,16 @@
                         {{genre}},
                         {% endfor %}
                     </td>
+                    {% if request.user.library %}
                     <td>{{ book.copies }}</td>
+                    {% endif %}
                     <td>
-                        <a href="" class="btn btn-sm btn-danger"> <i class="fa fa-times" aria-hidden="true"></i></a>
-                        <a href="" class="btn btn-sm btn-info"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a href="{% url 'book_delete' book.id %}" class="btn btn-sm btn-danger"> <i class="fa fa-times"
+                                aria-hidden="true"></i></a>
+                        <a href="{% url 'book_update' book.id %}" class="btn btn-sm btn-info"> <i class="fa fa-pencil"
+                                aria-hidden="true"></i></a>
+                        <a href="{% url 'book_detail' book.id %}" class="btn btn-sm btn-success"> <i class="fa fa-eye"
+                                aria-hidden="true"></i></a>
                     </td>
                 </tr>
                 {% endfor %}

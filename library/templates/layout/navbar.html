@@ -51,7 +51,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'member_create' %}">Add Member</a>
                 </li>
-                {% endif %}
                 <li class="nav-item active">
                     <span class="nav-link">
                         |
@@ -59,6 +58,10 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'homepage' %}">Library log</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'book_list' %}">Books</a>
                 </li>
                 <li class="nav-item active">
                     <span class="nav-link">
